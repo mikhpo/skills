@@ -1,6 +1,6 @@
 ---
 name: browser-screenshots
-description: Скриншоты страниц сайта - dev-сервер и прод: статичные кадры через one-shot headless Chrome, мобильный вьюпорт и клики через python/playwright, кроп фрагментов через PIL
+description: "Скриншоты страниц сайта - dev-сервер и прод: статичные кадры через one-shot headless Chrome, мобильный вьюпорт и клики через python/playwright, кроп фрагментов через PIL"
 ---
 
 ## Предназначение
