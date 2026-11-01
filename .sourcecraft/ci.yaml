@@ -1,0 +1,42 @@
+# Конфигурация CI/CD для SourceCraft репозитория skills.
+# Единственный workflow - синхронизация зеркал: репозиторий содержит только
+# markdown-скиллы, проверок кода и сборки не требуется.
+
+# Определение событий-триггеров для запуска рабочих процессов.
+on:
+  push:
+    # Синхронизация зеркал при пуше в основную ветку
+    - workflows: [trunk-workflow]
+      filter:
+        branches: ["main"]
+
+    # Синхронизация зеркал при пуше тегов (фильтр tags не сочетается с branches)
+    - workflows: [trunk-workflow]
+      filter:
+        tags: ["**"]
+
+# Определение рабочих процессов
+workflows:
+  # Синхронизация зеркал при пуше в основную ветку и тегов
+  trunk-workflow:
+    # Приватный ключ деплой-ключа GitHub: доставляется в ssh-agent по stdin,
+    # файлы с ключами в кубе не создаются. Платформа определяется переменной
+    # SOURCECRAFT_CI: состояние собственного зеркала запрашивается из origin куба,
+    # поскольку checkout куба не обязан отражать положение ветки main
+    env:
+      SYNC_GITHUB_SSH_KEY: ${{ secrets.SYNC_GITHUB_SSH_KEY }}
+    tasks:
+      - name: "sync-repositories"
+        cubes:
+          - name: "sync-mirrors"
+            image: docker.io/library/python:3.13-bookworm
+            script:
+              - echo "Синхронизация зеркал репозитория"
+              - eval "$(ssh-agent -s)"
+              - echo "$SYNC_GITHUB_SSH_KEY" | ssh-add -
+              # Полная история нужна для merge-base; автозагрузка кода кубом может быть поверхностной
+              - git fetch --unshallow > /dev/null 2>&1 || true
+              # Сбой синхронизации не прерывает конвейер - сообщение об ошибке в лог куба
+              - |
+                GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=accept-new" python tools/sync_mirrors.py \
+                  || echo "Синхронизация зеркал завершилась с ошибкой - работа конвейера не прервана. Подробности выше."
