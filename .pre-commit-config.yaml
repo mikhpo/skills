@@ -1,0 +1,39 @@
+# См. https://pre-commit.com для дополнительной информации
+# См. https://pre-commit.com/hooks.html для доступных хуков
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-json
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.11.0.1-1
+    hooks:
+      - id: shellcheck
+  - repo: local
+    hooks:
+      - id: fix-typography
+        name: fix-typography
+        description: Автозамена длинного тире (U+2014) на дефис, стрелки (U+2192) на "->" и кавычек-ёлочек (U+00AB, U+00BB) на прямые кавычки
+        entry: python3 tools/fix_typography.py
+        language: system
+        types: [text]
+      - id: unwrap-markdown
+        name: unwrap-markdown
+        description: Развертывание жестких переносов строк в Markdown (абзац - одна строка)
+        entry: python3 tools/unwrap_markdown.py
+        language: system
+        types: [file]
+        files: \.(md|markdown)$
+      - id: markdownlint
+        name: markdownlint
+        description: Проверка Markdown файлов при помощи markdownlint
+        entry: npx -y markdownlint-cli
+        language: system
+        types: [file]
+        files: \.(md|markdown)$

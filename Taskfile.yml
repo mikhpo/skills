@@ -1,0 +1,10 @@
+version: '3'
+
+tasks:
+  markdownlint:
+    desc: Выполнить проверку Markdown файлов при помощи markdownlint
+    summary: |
+      Проверяет качество Markdown файлов с помощью markdownlint.
+      Использует конфигурацию из .markdownlint.json.
+    cmds:
+      - npx -y markdownlint-cli '**/*.md'

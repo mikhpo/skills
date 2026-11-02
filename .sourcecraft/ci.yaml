@@ -1,10 +1,21 @@
 # Конфигурация CI/CD для SourceCraft репозитория skills.
-# Единственный workflow - синхронизация зеркал: репозиторий содержит только
-# markdown-скиллы, проверок кода и сборки не требуется.
+# Проверки Markdown на PR и неосновных ветках, синхронизация зеркал
+# при пуше в основную ветку и тегов.
 
 # Определение событий-триггеров для запуска рабочих процессов.
 on:
+  pull_request:
+    # Проверка Markdown при открытии предложения изменений
+    - workflows: [lint-workflow]
+      filter:
+        target_branches: ["main"]
+
   push:
+    # Проверка Markdown при пуше не в основную ветку
+    - workflows: [lint-workflow]
+      filter:
+        branches: ["!main"]
+
     # Синхронизация зеркал при пуше в основную ветку
     - workflows: [trunk-workflow]
       filter:
@@ -17,6 +28,17 @@ on:
 
 # Определение рабочих процессов
 workflows:
+  # Статический анализ Markdown
+  lint-workflow:
+    tasks:
+      - name: "markdown-check"
+        cubes:
+          - name: "markdownlint"
+            image: docker.io/library/node:24-bookworm
+            script:
+              - echo "Проверка Markdown файлов"
+              - npx -y markdownlint-cli '**/*.md'
+
   # Синхронизация зеркал при пуше в основную ветку и тегов
   trunk-workflow:
     # Приватный ключ деплой-ключа GitHub: доставляется в ssh-agent по stdin,
