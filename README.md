@@ -4,7 +4,13 @@
 
 ## Установка
 
-Из корня проекта:
+Глобально - скиллы доступны во всех проектах машины:
+
+```bash
+npx skills add mikhpo/skills -g
+```
+
+В проект - альтернативный вариант: скиллы размещаются в каталоге проекта (`.agents/skills/`) и версионируются вместе с ним:
 
 ```bash
 npx skills add mikhpo/skills
@@ -13,17 +19,15 @@ npx skills add mikhpo/skills
 CLI предложит выбрать скиллы и агентов. Выборочные установки:
 
 ```bash
-npx skills add mikhpo/skills --skill sourcecraft-workflow --skill github-workflow
-npx skills add mikhpo/skills -g          # глобально, для всех проектов
+npx skills add mikhpo/skills -g --skill sourcecraft-workflow --skill github-workflow
 ```
-
-Установленные скиллы попадают в общий каталог `.agents/skills/` проекта и связываются с каталогами выбранных агентов.
 
 ## Обновление
 
 ```bash
-npx skills check     # проверить наличие обновлений
-npx skills update    # обновить установленные скиллы
+npx skills check         # проверить наличие обновлений
+npx skills update -g     # обновить глобальные скиллы
+npx skills update -p     # обновить скиллы проекта
 ```
 
 ## Скиллы
