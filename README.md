@@ -1,6 +1,6 @@
 # skills
 
-Общие скиллы агентов для установки через [npx skills](https://skills.sh). Основной репозиторий - GitHub, зеркало - SourceCraft (синхронизация main и тегов обертками CI).
+Общие скиллы агентов для установки через [npx skills](https://skills.sh). Репозиторий доступен на GitHub и SourceCraft, main и теги синхронизируются автоматически (см. [CONTRIBUTING.md](CONTRIBUTING.md)).
 
 ## Установка
 
@@ -17,7 +17,7 @@ npx skills add mikhpo/skills --skill sourcecraft-workflow --skill github-workflo
 npx skills add mikhpo/skills -g          # глобально, для всех проектов
 ```
 
-Установленные скиллы попадают в `.agents/skills/` проекта (общий каталог, OpenCode читает его напрямую) и связываются с каталогами выбранных агентов.
+Установленные скиллы попадают в общий каталог `.agents/skills/` проекта и связываются с каталогами выбранных агентов.
 
 ## Обновление
 
@@ -37,6 +37,6 @@ npx skills update    # обновить установленные скиллы
 | postgresql-restore | Восстановление PostgreSQL из дампа утилитой pg_restore |
 | browser-screenshots | Скриншоты страниц сайта: headless Chrome, playwright, PIL |
 
-## Синхронизация зеркал
+## Разработка репозитория
 
-Основная разработка ведется на GitHub (ветки и PR), зеркало - SourceCraft. Скрипт `tools/sync_mirrors.py` выравнивает main и теги fast-forward push-ами: GitHub Actions (`trunk.yml`) пушит в SourceCraft по деплой-ключу из секрета `SYNC_SOURCECRAFT_SSH_KEY`, SourceCraft CI (`trunk-workflow` в `.sourcecraft/ci.yaml`) - в GitHub по секрету `SYNC_GITHUB_SSH_KEY`. Повторный запуск безопасен: при синхронных зеркалах скрипт не выполняет действий.
+Скиллы редактируются в `skills/<имя>/SKILL.md`. Правки вносятся обычным циклом ветка-PR на любой из платформ; требования к текстам - тот же стиль, что в самих скиллах: русский язык, дефис вместо длинного тире, прямые кавычки. Проверка перед пушем: `npx markdownlint-cli '**/*.md'`. Механика синхронизации зеркал - в [CONTRIBUTING.md](CONTRIBUTING.md).
