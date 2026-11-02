@@ -169,7 +169,7 @@ GET /repos/{org}/{repo}/cicd/logs/{run}/{workflow}/{task}/{cube}
 
 Полный список endpoint-ов CI: `GET https://api.sourcecraft.tech/docs` (Redoc, спецификация `./sourcecraft.swagger.json`).
 
-Для многократного использования в комплекте со скиллом идет обёртка `scripts/src-cube-logs.sh` (в установленном виде - `.agents/skills/sourcecraft-workflow/scripts/src-cube-logs.sh`), которая сама получает токен из keychain macOS (сервис `sourcecraft-cli`) и определяет `org/repo` по git remote:
+Для многократного использования в комплекте со скиллом идет обёртка `scripts/src-cube-logs.sh` (в установленном виде - `.agents/skills/sourcecraft-workflow/scripts/src-cube-logs.sh` при установке в проект, `~/.agents/skills/sourcecraft-workflow/scripts/src-cube-logs.sh` при глобальной установке), которая сама получает токен из keychain macOS (сервис `sourcecraft-cli`) и определяет `org/repo` по git remote:
 
 ```bash
 .agents/skills/sourcecraft-workflow/scripts/src-cube-logs.sh <run> <workflow> <task> <cube>

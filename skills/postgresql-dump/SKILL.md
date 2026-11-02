@@ -47,7 +47,7 @@ psql … -c "SELECT version();"           # версия сервера
 
 ### Скрипт-помощник
 
-В комплекте скилла идет неинтерактивный wrapper над pg_dump `scripts/pg-dump.sh` (в установленном виде - `.agents/skills/postgresql-dump/scripts/pg-dump.sh`; без выгрузки во внешнее хранилище). Параметры подключения - флагами или переменными окружения libpq (`PGHOST`, `PGPORT`, `PGUSER`, `PGDATABASE`, `PGPASSWORD`), пароль через `PGPASSWORD` или `~/.pgpass`.
+В комплекте скилла идет неинтерактивный wrapper над pg_dump `scripts/pg-dump.sh` (в установленном виде - `.agents/skills/postgresql-dump/scripts/pg-dump.sh` при установке в проект, `~/.agents/skills/postgresql-dump/scripts/pg-dump.sh` при глобальной установке; без выгрузки во внешнее хранилище). Параметры подключения - флагами или переменными окружения libpq (`PGHOST`, `PGPORT`, `PGUSER`, `PGDATABASE`, `PGPASSWORD`), пароль через `PGPASSWORD` или `~/.pgpass`.
 
 ```bash
 PGPASSWORD='<пароль>' .agents/skills/postgresql-dump/scripts/pg-dump.sh \
